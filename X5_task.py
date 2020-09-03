@@ -12,18 +12,19 @@ def generalize(std,num,days):
     :param days : кол-во дней для всего рассматриваемого периода
     :return final: датафрейм, в котором для каждого магазина и для каждого дня (за период days) указано кол-во посетителей
      """"
+   
     shops = [i + 1 for i in range(num) for j in range(days)]
     date = [datetime.date(2019,1,1) + datetime.timedelta(j) for i in range(num) for j in range(days)]
     traffic = []
-    elem = {}
+    random_traff = {} #словарь, в котором для каждого магазина генерируем свое случайное значение траффика
     for i in range(days*num):
-        if shops[i] in elem:
-            traffic.append(int(elem[shops[i]] + elem[shops[i]]*uniform(-std,std)))
+        if shops[i] in random_traff:
+            traffic.append(int(random_traff[shops[i]] + random_traff[shops[i]]*uniform(-std,std)))
         else:
-            elem[shops[i]] = randint(100,10000)
-            traffic.append(elem[shops[i]])
-    dat = {'ID':shops,'date':date,'traffic':traffic}
-    final = pd.DataFrame(dat)
+            random_traff[shops[i]] = randint(100,10000)
+            traffic.append(random_traff[shops[i]])
+    random_data = {'ID':shops,'date':date,'traffic':traffic}
+    final = pd.DataFrame(random_data)
     return final
 
 def linearize(final,year,month,day):
@@ -38,6 +39,7 @@ def linearize(final,year,month,day):
     :return pilot: датафрейм, в котором для каждого магазина и для каждого дня (за пилотный период) 
     указано кол-во посетителей, но не в абсолютном значении,а отклонение от среднего значения для этого магазина в предпилотный период 
     """"
+    
     avg = final[final['date'] <= datetime.date(year,month,day)].groupby('ID')['traffic'].mean()
     pilot = pd.DataFrame()
     for row in final[final['date'] > datetime.date(year,month,day)].itertuples(index = False):
