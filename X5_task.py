@@ -1,19 +1,7 @@
-
-# coding: utf-8
-
-# In[275]:
-
-
 import pandas as pd
 import numpy as np
 import datetime
 from random import randint,uniform
-    
-
-
-
-# In[274]:
-
 
 def generalize(std,num,days):
     """"
@@ -23,7 +11,7 @@ def generalize(std,num,days):
     :param num : число магазинов
     :param days : кол-во дней для всего рассматриваемого периода
     :return final: датафрейм, в котором для каждого магазина и для каждого дня (за период days) указано кол-во посетителей
-     """
+     """"
     shops = [i + 1 for i in range(num) for j in range(days)]
     date = [datetime.date(2019,1,1) + datetime.timedelta(j) for i in range(num) for j in range(days)]
     traffic = []
@@ -61,9 +49,6 @@ final = generalize(-0.15,10,181)
 pilot = linearize(final,2019,3,31)
 final.to_csv("gen.csv")
 pilot.to_csv("pilot.csv")
-
-
-# In[273]:
 
 
 
