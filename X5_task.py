@@ -43,7 +43,7 @@ def linearize(final,year,month,day):
     avg = final[final['date'] <= datetime.date(year,month,day)].groupby('ID')['traffic'].mean()
     pilot = pd.DataFrame()
     for row in final[final['date'] > datetime.date(year,month,day)].itertuples(index = False):
-        pilot = pilot.append({'ID':row[0],'traffic':(row[2]-avg[row[0]]),'date':row[1]},ignore_index=True)
+        pilot = pilot.append({'ID':row[0],'traffic':int(row[2]-avg[row[0]]),'date':row[1]},ignore_index=True)
     return pilot
 
 
